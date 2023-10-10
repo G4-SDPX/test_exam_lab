@@ -3,7 +3,7 @@ Library        RequestsLibrary
 
 *** Keywords
 Make Request
-    [Arguments]    ${url}    ${method}    ${data}
+    [Arguments]    ${url}    ${method}    ${data}=
     ${response} =    Requests.request    ${method}    ${url}    data=${data}
     Return    ${response}
 
