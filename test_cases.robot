@@ -1,39 +1,21 @@
 *** Settings ***
-Library    SeleniumLibrary
+Library    RequestsLibrary
 
-Suite Setup    Open Headless Chrome    http://localhost:5000/is_prime/    # Use headless mode
+*** Variables ***
+${BASE_URL}    http://localhost:5000
 
 *** Test Cases ***
-Test Is Prime Function
-    [Tags]    Is Prime
-    # Test case for a prime number
-    Click Element    name=x
-    Input Text    name=x    17
-    Click Element    name=submit
-    Wait Until Page Contains    True
-    Should Be Equal    Get Text    True
+Test Is Prime API
+    [Documentation]    Test the /is_prime endpoint of the Flask app
 
-    # Test case for a non-prime number
-    Click Element    name=x
-    Input Text    name=x    36
-    Click Element    name=submit
-    Wait Until Page Contains    False
-    Should Be Equal    Get Text    False
+    ${response}    Get Request    ${BASE_URL}/is_prime/17
+    Should Be Equal As Strings    ${response.status_code}    200
+    Should Be Equal As Strings    ${response.json()}    "True"
 
-    # Test case for another prime number
-    Click Element    name=x
-    Input Text    name=x    13219
-    Click Element    name=submit
-    Wait Until Page Contains    True
-    Should Be Equal    Get Text    True
+    ${response}    Get Request    ${BASE_URL}/is_prime/36
+    Should Be Equal As Strings    ${response.status_code}    200
+    Should Be Equal As Strings    ${response.json()}    "False"
 
-*** Keywords ***
-Open Headless Chrome
-    [Arguments]    ${url}
-    ${chrome_options} =    Call Method    ${EMPTY}    create dictionary    args=--headless
-    Create Webdriver    Chrome    chrome_options=${chrome_options}
-    Go To    ${url}
-
-
-Close Browser
-    Close Browser
+    ${response}    Get Request    ${BASE_URL}/is_prime/13219
+    Should Be Equal As Strings    ${response.status_code}    200
+    Should Be Equal As Strings    ${response.json()}    "True"
