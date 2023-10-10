@@ -1,30 +1,24 @@
 *** Settings ***
-Library  RequestsLibrary
+Library    RequestsLibrary
 
 *** Test Cases ***
-Test Is Prime
-    [Documentation]  ตรวจสอบว่าจำนวนเฉพาะหรือไม่
-    ${x}    Set Variable  17
-    ${session}    Create Session  http://localhost:5000
-    ${response}    GET On Session  ${session}  /is_prime/${x}
-    ${is_prime}    Response Body Get  is_prime
-    ${expected}    Set Variable  True
-    Should Be Equal  ${is_prime}  ${expected}
+Test Is Prime :: ตรวจสอบว่าจำนวนเฉพาะหรือไม่
+    Create Session    my_api    http://localhost:5000
+    ${response} =    Get Request    my_api/is_prime/17
+    Should Be Equal    ${response.status_code}    200
+    ${json_response} =    Set Variable    ${response.json()}
+    Should Be Equal    ${json_response}    True
 
-Test Is Not Prime
-    [Documentation]  ตรวจสอบว่าจำนวนไม่ใช่จำนวนเฉพาะหรือไม่
-    ${x}    Set Variable  36
-    ${session}    Create Session  http://localhost:5000
-    ${response}    GET On Session  ${session}  /is_prime/${x}
-    ${is_prime}    Response Body Get  is_prime
-    ${expected}    Set Variable  False
-    Should Be Equal  ${is_prime}  ${expected}
+Test Is Not Prime :: ตรวจสอบว่าจำนวนไม่ใช่จำนวนเฉพาะหรือไม่
+    Create Session    my_api    http://localhost:5000
+    ${response} =    Get Request    my_api/is_prime/36
+    Should Be Equal    ${response.status_code}    200
+    ${json_response} =    Set Variable    ${response.json()}
+    Should Be Equal    ${json_response}    False
 
-Test Is Prime With Large Number
-    [Documentation]  ตรวจสอบว่าจำนวนเฉพาะหรือไม่
-    ${x}    Set Variable  13219
-    ${session}    Create Session  http://localhost:5000
-    ${response}    GET On Session  ${session}  /is_prime/${x}
-    ${is_prime}    Response Body Get  is_prime
-    ${expected}    Set Variable  True
-    Should Be Equal  ${is_prime}  ${expected}
+Test Is Prime With Large Number :: ตรวจสอบว่าจำนวนเฉพาะหรือไม่
+    Create Session    my_api    http://localhost:5000
+    ${response} =    Get Request    my_api/is_prime/13219
+    Should Be Equal    ${response.status_code}    200
+    ${json_response} =    Set Variable    ${response.json()}
+    Should Be Equal    ${json_response}    True
