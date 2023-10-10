@@ -8,7 +8,7 @@ Make Request
     Return    ${response}
 
 *** Test Cases
-Test Is Prime True
+Test Is Prime 17
     ${response} =    Run Keyword     Make Request     http://localhost:5000/is_prime/17    GET
     ${is_prime} =    ${response.json()}
     ${expected} =    "True"
@@ -24,7 +24,7 @@ Test Is Prime True
     ${assert} =    Run Keyword If    ${actual} != "application/json"    Fail    Expected content type is application/json but got ${actual}
     Log    PASS
 
-Test Is Prime False
+Test Is Prime 36
     ${response} =    Run Keyword     Make Request     http://localhost:5000/is_prime/36    GET
     ${is_prime} =    ${response.json()}
     ${expected} =    "False"
@@ -40,7 +40,7 @@ Test Is Prime False
     ${assert} =    Run Keyword If    ${actual} != "application/json"    Fail    Expected content type is application/json but got ${actual}
     Log    PASS
 
-Test Is Prime True
+Test Is Prime 13219
     ${response} =    Run Keyword     Make Request     http://localhost:5000/is_prime/13219    GET
     ${is_prime} =    ${response.json()}
     ${expected} =    "True"
