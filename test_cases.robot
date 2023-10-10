@@ -30,9 +30,10 @@ Test Is Prime Function
 *** Keywords ***
 Open Headless Chrome
     [Arguments]    ${url}
-    ${chrome_options}    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys
+    ${chrome_options} =    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys
     Call Method    ${chrome_options}    add_argument    --headless
-    Create Webdriver    Chrome    chrome_options=${chrome_options}
+    ${options}=    Call Method    ${chrome_options}    to_capabilities
+    Create Webdriver    Chrome    options=${options}
     Go To    ${url}
 
 Close Browser
