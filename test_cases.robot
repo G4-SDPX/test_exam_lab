@@ -1,33 +1,41 @@
-*** Settings ***
-Library           RequestsLibrary
+*** Settings
+Library RequestsLibrary
 
-*** Keywords ***
+*** Keywords
+Make Request
+    [Arguments]    ${url}    ${method}    ${data}
+    ${response} =    Requests.request    ${method}    ${url}    data=${data}
+    Return    ${response}
 
-Get Calculation JSON
-    [Arguments]    ${num1}
-    ${resp}=     GET    http://127.0.0.1:5000/is_prime/${num1}
-    
-    # Verify the status code is 200 (OK)
-    Should Be Equal    ${resp.status_code}    ${200}
+*** Test Cases
+Test Is Prime True
+    ${response} =    Run Keyword     Make Request     http://localhost:5000/is_prime/17    GET
+    ${is_prime} =    ${response.json()}
+    ${expected} =    "True"
+    ${status} =    ${response.status_code}
+    ${actual} =    ${response.headers["Content-Type"]}
+    Log    ${is_prime}
+    Log    ${expected}
+    Log    ${status}
+    Log    ${actual}
+    ${assert} =    Set Assertion    ${is_prime} == ${expected}
+    ${assert} =    Run Keyword If    ${assert}    Fail    Expected response is ${expected} but got ${is_prime}
+    ${assert} =    Run Keyword If    ${status} != 200    Fail    Expected status code is 200 but got ${status}
+    ${assert} =    Run Keyword If    ${actual} != "application/json"    Fail    Expected content type is application/json but got ${actual}
+    Log    PASS
 
-    # Parse the response content as JSON, and handle exceptions
-    ${json_resp}=    Evaluate    json.loads(resp.text)    json
-    [return]    ${json_resp}
-
-*** Test Cases ***
-Test 17 (After Using Keywords)
-    ${json_resp}=    Get Calculation JSON    17
-    # Verify the JSON response content
-    Should Be Equal    ${json_resp}    True
-
-Test 36 (After Using Keywords)
-    ${json_resp}=    Get Calculation JSON    36
-    # Verify the JSON response content
-    Should Be Equal    ${json_resp}    False
-
-Test 13219 (After Using Keywords)
-    ${json_resp}=    Get Calculation JSON    13219
-    # Verify the JSON response content
-    Should Be Equal    ${json_resp}    True
-
-
+Test Is Prime False
+    ${response} =    Run Keyword     Make Request     http://localhost:5000/is_prime/10    GET
+    ${is_prime} =    ${response.json()}
+    ${expected} =    "False"
+    ${status} =    ${response.status_code}
+    ${actual} =    ${response.headers["Content-Type"]}
+    Log    ${is_prime}
+    Log    ${expected}
+    Log    ${status}
+    Log    ${actual}
+    ${assert} =    Set Assertion    ${is_prime} == ${expected}
+    ${assert} =    Run Keyword If    ${assert}    Fail    Expected response is ${expected} but got ${is_prime}
+    ${assert} =    Run Keyword If    ${status} != 200    Fail    Expected status code is 200 but got ${status}
+    ${assert} =    Run Keyword If    ${actual} != "application/json"    Fail    Expected content type is application/json but got ${actual}
+    Log    PASS
