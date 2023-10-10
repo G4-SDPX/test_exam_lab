@@ -1,5 +1,7 @@
 from flask import Flask, request
 
+import math
+
 app = Flask(__name__)
 
 @app.route('/is_prime/<int:x>')
@@ -14,14 +16,11 @@ def is_prime(x):
     True ถ้า x เป็นจำนวนเฉพาะ
     False ถ้า x ไม่ไช่จำนวนเฉพาะ
   """
-
+  
   if x < 2:
-    return "False"
+    return False
 
-  for i in range(2, int(x ** 0.5) + 1):
-    if x % i == 0:
-      return "False"
-  return "True"
+  return str(all(x % i for i in range(2, int(math.sqrt(x)) + 1)))
 
 if __name__ == '__main__':
-  app.run(debug=True)
+  app.run()

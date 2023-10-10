@@ -25,7 +25,7 @@ pipeline {
                 }
                 steps {
                     sh '''#!/bin/bash
-                        source env/bin/activate && python3 ./unit_test.py
+                        source env/bin/activate && python3 ./unittest.py
                     '''
                 }
             }
@@ -67,7 +67,7 @@ pipeline {
                 }
                 steps {
                     echo 'Runing Robot'
-                    sh 'robot ./test_cases.robot'
+                    sh 'robot ./test_prime.robot'
                 }
             }
         }
