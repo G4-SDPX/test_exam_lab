@@ -1,6 +1,6 @@
 import unittest
 
-from app import is_prime
+from app.app import is_prime
 
 class TestIsPrime(unittest.TestCase):
 
