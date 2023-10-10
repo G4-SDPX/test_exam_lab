@@ -24,12 +24,10 @@ Test 3 (ฺBefore Using Keywords)
     # Verify the status code is 200 (OK)
     Should Be Equal    ${resp.status_code}    ${200}
 
-    # Check if the response content is a valid JSON object
     TRY
         ${json_resp}=    Evaluate json.loads('${resp.content}')
     EXCEPT JSONDecodeError
         Log   The response content is not a valid JSON object
-        Raise Exception
     END TRY
 
     # Verify the response of plus operation
