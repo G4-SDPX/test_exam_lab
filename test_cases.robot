@@ -1,15 +1,18 @@
 *** Settings ***
 Library        RequestsLibrary
 
+*** Variables ***
+${data}    None
+
 *** Keywords ***
 Make Request
-    [Arguments]    ${url}    ${method}    ${data}
+    [Arguments]    ${url}    ${method}
     ${response} =    Requests.request    ${method}    ${url}    data=${data}
     Return    ${response}
 
 *** Test Cases ***
 Test Is Prime 17
-    ${response} =    Run Keyword     Make Request     http://localhost:5000/is_prime/17    GET    ${data}=None
+    ${response} =    Run Keyword     Make Request     http://localhost:5000/is_prime/17    GET
     ${is_prime} =    ${response.json()}
     ${expected} =    "True"
     ${status} =    ${response.status_code}
@@ -25,7 +28,7 @@ Test Is Prime 17
     Log    PASS
 
 Test Is Prime 36
-    ${response} =    Run Keyword     Make Request     http://localhost:5000/is_prime/36    GET    ${data}=None
+    ${response} =    Run Keyword     Make Request     http://localhost:5000/is_prime/36    GET
     ${is_prime} =    ${response.json()}
     ${expected} =    "False"
     ${status} =    ${response.status_code}
@@ -41,7 +44,7 @@ Test Is Prime 36
     Log    PASS
 
 Test Is Prime 13219
-    ${response} =    Run Keyword     Make Request     http://localhost:5000/is_prime/13219    GET    ${data}=None
+    ${response} =    Run Keyword     Make Request     http://localhost:5000/is_prime/13219    GET
     ${is_prime} =    ${response.json()}
     ${expected} =    "True"
     ${status} =    ${response.status_code}
