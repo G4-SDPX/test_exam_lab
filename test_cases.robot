@@ -1,24 +1,30 @@
 *** Settings ***
-Library    RequestsLibrary
+Library           RequestsLibrary
+
+
+*** Keywords ***
+
+Get Calculation JSON
+    [Arguments]    ${x}
+    ${resp}=     GET    http://127.0.0.1:5000/is_prime/฿{x}
+
+    # Verify the status code is 200 (OK)
+    Should Be Equal    ${resp.status_code}    ${200}
+
+    # Get the response content as a JSON object
+    [return]    ${resp.json()}
+
 
 *** Test Cases ***
-Test Is Prime :: ตรวจสอบว่าจำนวนเฉพาะหรือไม่
-    Create Session    my_api    http://localhost:5000
-    ${response} =    Get Request    my_api/is_prime/17
-    Should Be Equal    ${response.status_code}    200
-    ${json_response} =    Set Variable    ${response.json()}
-    Should Be Equal    ${json_response}    True
+Test 3 (ฺBefore Using Keywords)
 
-Test Is Not Prime :: ตรวจสอบว่าจำนวนไม่ใช่จำนวนเฉพาะหรือไม่
-    Create Session    my_api    http://localhost:5000
-    ${response} =    Get Request    my_api/is_prime/36
-    Should Be Equal    ${response.status_code}    200
-    ${json_response} =    Set Variable    ${response.json()}
-    Should Be Equal    ${json_response}    False
+    ${resp}=     GET    http://127.0.0.1:5000/is_prime/3
 
-Test Is Prime With Large Number :: ตรวจสอบว่าจำนวนเฉพาะหรือไม่
-    Create Session    my_api    http://localhost:5000
-    ${response} =    Get Request    my_api/is_prime/13219
-    Should Be Equal    ${response.status_code}    200
-    ${json_response} =    Set Variable    ${response.json()}
-    Should Be Equal    ${json_response}    True
+    # Verify the status code is 200 (OK)
+    Should Be Equal    ${resp.status_code}    ${200}
+
+    # Get the response content as a JSON object
+    ${json_resp}=    Set Variable  ${resp.json()}
+
+    # Verify the response of plus operation
+    Should Be Equal    ${json_resp}    "True"
