@@ -1,5 +1,5 @@
 *** Settings
-Library RequestsLibrary
+Library        RequestsLibrary
 
 *** Keywords
 Make Request
