@@ -5,7 +5,8 @@ Library  RequestsLibrary
 Test Is Prime
     [Documentation]  ตรวจสอบว่าจำนวนเฉพาะหรือไม่
     ${x}    Set Variable  17
-    ${response}    Get Request  http://localhost:5000/is_prime/${x}
+    ${session}    Create Session  http://localhost:5000
+    ${response}    GET On Session  ${session}  /is_prime/${x}
     ${is_prime}    Response Body Get  is_prime
     ${expected}    Set Variable  True
     Should Be Equal  ${is_prime}  ${expected}
@@ -13,7 +14,8 @@ Test Is Prime
 Test Is Not Prime
     [Documentation]  ตรวจสอบว่าจำนวนไม่ใช่จำนวนเฉพาะหรือไม่
     ${x}    Set Variable  36
-    ${response}    Get Request  http://localhost:5000/is_prime/${x}
+    ${session}    Create Session  http://localhost:5000
+    ${response}    GET On Session  ${session}  /is_prime/${x}
     ${is_prime}    Response Body Get  is_prime
     ${expected}    Set Variable  False
     Should Be Equal  ${is_prime}  ${expected}
@@ -21,7 +23,8 @@ Test Is Not Prime
 Test Is Prime With Large Number
     [Documentation]  ตรวจสอบว่าจำนวนเฉพาะหรือไม่
     ${x}    Set Variable  13219
-    ${response}    Get Request  http://localhost:5000/is_prime/${x}
+    ${session}    Create Session  http://localhost:5000
+    ${response}    GET On Session  ${session}  /is_prime/${x}
     ${is_prime}    Response Body Get  is_prime
     ${expected}    Set Variable  True
     Should Be Equal  ${is_prime}  ${expected}
