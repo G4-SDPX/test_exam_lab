@@ -70,6 +70,5 @@ pipeline {
                     sh 'robot ./test_cases.robot'
                 }
             }
-            }
         }
 }
