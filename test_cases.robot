@@ -11,7 +11,7 @@ Get Calculation JSON
     Should Be Equal    ${resp.status_code}    ${200}
 
     # Parse the response content as JSON, and handle exceptions
-    ${json_resp}=    Evaluate    json.loads(response.text)    json
+    ${json_resp}=    Evaluate    json.loads(resp.text)    json
     [return]    ${json_resp}
 
 *** Test Cases ***
@@ -29,4 +29,5 @@ Test 13219 (After Using Keywords)
     ${json_resp}=    Get Calculation JSON    13219
     # Verify the JSON response content
     Should Be Equal    ${json_resp}    True
+
 
