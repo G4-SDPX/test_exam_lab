@@ -16,6 +16,7 @@ Get Calculation JSON
 
 
 *** Test Cases ***
+
 Test 3 (ฺBefore Using Keywords)
 
     ${resp}=     GET    http://127.0.0.1:5000/is_prime/3
@@ -23,8 +24,13 @@ Test 3 (ฺBefore Using Keywords)
     # Verify the status code is 200 (OK)
     Should Be Equal    ${resp.status_code}    ${200}
 
-    # Get the response content as a JSON object
-    ${json_resp}=    Set Variable  ${resp.json()}
+    # Check if the response content is a valid JSON object
+    TRY
+        ${json_resp}=    Evaluate json.loads('${resp.content}')
+    EXCEPT JSONDecodeError
+        Log   The response content is not a valid JSON object
+        Raise Exception
+    END TRY
 
     # Verify the response of plus operation
     Should Be Equal    ${json_resp}    "True"
