@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return '<h1> G06-SDPX </h1>'
+    return '<h1> G04-SDPX </h1>'
 
 @app.route('/is_prime/<int:x>')
 def is_prime(x):
