@@ -25,7 +25,7 @@ pipeline {
                 }
                 steps {
                     sh '''#!/bin/bash
-                        source env/bin/activate && python3 ./unittest.py
+                        source env/bin/activate && python3 ./unittesty.py
                     '''
                 }
             }
